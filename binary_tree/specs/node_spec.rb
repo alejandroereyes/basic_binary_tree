@@ -2,9 +2,17 @@ require_relative 'spec_helper'
 
 describe BinaryTree::Node do
 
-  it 'can be instantiated' do
-    new_node = BinaryTree::Node.new
+  let(:node) { BinaryTree::Node.new }
 
-    expect(new_node).to an_instance_of(BinaryTree::Node)
+  it "can be instantiated" do
+    expect(node).to an_instance_of(BinaryTree::Node)
+  end
+
+  [:value, :parent, :child].each do |attr|
+    it "has a setter & getter for #{attr}" do
+      node.send("#{attr}=", 'some cool information')
+
+      expect(node.send(attr)).to eq('some cool information')
+    end
   end
 end
