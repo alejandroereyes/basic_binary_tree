@@ -9,25 +9,31 @@ module BinaryTree
     end
 
     def build_tree(arr, parent_node=nil)
+      return if arr.empty?
       arr.uniq!
+      midpoint   = find_midpoint(arr)
+      left_half  = arr[0...midpoint]
+      right_half = arr[midpoint + 1..-1]
 
-      @value  = arr.shift
-      @parent = parent_node
+      @value       = arr[midpoint]
+      @parent      = parent_node
+      @left_child  = new_node.build_tree(left_half, self)  unless left_half.empty?
+      @right_child = new_node.build_tree(right_half, self) unless right_half.empty?
 
-      if next_value = arr.first
-        set_left_or_right next_value, arr
-      end
+      self
+    end
 
-      return self if arr.empty?
+    def leaf?
+      left_child.nil? && right_child.nil?
+    end
+
+    def breadth_first_search(value)
+
     end
 
     private
-    def set_left_or_right(next_value, arr)
-      if value > next_value
-        @left_child = new_node.build_tree(arr, self)
-      else
-        @right_child = new_node.build_tree(arr, self)
-      end
+    def find_midpoint(arr)
+      (arr.length - 1) / 2
     end
 
     def new_node
