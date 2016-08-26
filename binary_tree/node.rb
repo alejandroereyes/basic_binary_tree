@@ -27,9 +27,24 @@ module BinaryTree
       left_child.nil? && right_child.nil?
     end
 
-    def breadth_first_search(value)
+    def depth_first_search(search_value)
+      return self if value == search_value
 
+      if left_child
+        return left_child if left_child.value == search_value
+      end
+
+      if right_child
+        return right_child if right_child.value == search_value
+      end
+
+      found_on_left_child = left_child.depth_first_search(search_value) if left_child
+      return found_on_left_child if found_on_left_child
+
+      found_on_right_child = right_child.depth_first_search(search_value) if right_child
+      return found_on_right_child if found_on_right_child
     end
+    alias_method :df_search, :depth_first_search
 
     private
     def find_midpoint(arr)
