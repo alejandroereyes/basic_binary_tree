@@ -86,12 +86,25 @@ describe BinaryTree::Node do
     let(:asc_sorted) { [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345] }
     let(:tree) { BinaryTree::Node.new.build_tree(asc_sorted) }
 
-    it 'will return the child node that holds the value being searched for' do
+    it 'will return the node that holds the value being searched for' do
       expect(tree.depth_first_search(7).value).to eq(7)
     end
 
     it 'will return nil if value is not found in the tree' do
       expect(tree.depth_first_search(19)).to be_nil
+    end
+  end
+
+  describe '#breadth_first_search' do
+    let(:asc_sorted) { [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345] }
+    let(:tree) { BinaryTree::Node.new.build_tree(asc_sorted) }
+
+    it 'will return the node that holds the value being searched for' do
+      expect(tree.breadth_first_search(7).value).to eq(7)
+    end
+
+    it 'will return nil if value is not found in the tree' do
+      expect(tree.breadth_first_search(19)).to be_nil
     end
   end
 end

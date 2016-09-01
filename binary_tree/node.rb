@@ -28,6 +28,7 @@ module BinaryTree
     end
 
     def depth_first_search(search_value)
+      # puts "\nCURRENT NODE VALUE: #{value}"
       return self if value == search_value
 
       if left_child
@@ -45,6 +46,27 @@ module BinaryTree
       return found_on_right_child if found_on_right_child
     end
     alias_method :df_search, :depth_first_search
+
+    def breadth_first_search(search_value, queue=[])
+      # puts "\nCURRENT NODE VALUE: #{value}\n"
+      return self if value == search_value
+
+      if left_child
+        return left_child if left_child.value == search_value
+        queue << left_child
+      end
+
+      if right_child
+        return right_child if right_child.value == search_value
+        queue << right_child
+      end
+
+      return if queue.empty?
+
+      next_node = queue.shift
+      next_node.breadth_first_search(search_value, queue)
+    end
+    alias_method :bf_search, :breadth_first_search
 
     private
     def find_midpoint(arr)
