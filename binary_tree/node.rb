@@ -27,6 +27,10 @@ module BinaryTree
       left_child.nil? && right_child.nil?
     end
 
+    def build_tree_from_unsorted(arr, parent_node=nil)
+
+    end
+
     def depth_first_search(search_value)
       # puts "\nCURRENT NODE VALUE: #{value}"
       return self if value == search_value
@@ -76,12 +80,22 @@ module BinaryTree
     def new_node
       self.class.new
     end
+
+    def find_height(node=self)
+      return -1 unless node
+
+      left_height  = find_height(node.left_child)
+      right_height = find_height(node.right_child)
+
+      left_height >= right_height ? left_height + 1 : right_height + 1
+    end
   end
 end
 
 # arr = [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345]
 # root = BinaryTree::Node.new
 # tree = root.build_tree(arr.dup)
+# tree = root.build_tree_from_unsorted([7, 324, 7, 9, 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5])
 # pp tree
 # pp arr
 #

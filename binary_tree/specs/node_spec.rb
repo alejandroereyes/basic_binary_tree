@@ -67,17 +67,32 @@ describe BinaryTree::Node do
       end
     end
 
-    context 'given a sorted DESC list, uses the midpoint as the root and builds out each side' do
-      # it 'places all the children to the left' do
-      #   tree = BinaryTree::Node.new.build_tree(desc_sorted)
-      #   expect_all_children_to_be_to_one_side(tree, side: :left_child)
-      # end
-    end
-
     context 'given an unsorted list' do
-      let(:unsorted_arr) { [7, 324.7, 9 , 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5] }
+      let(:unsorted_arr) { [7, 324, 7, 9, 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5] }
       skip 'will build a binary tree' do
+        tree = BinaryTree::Node.new.build_tree_from_unsorted(unsorted_arr)
 
+        # left side of tree
+        expect(tree.value).to eq(8)
+        expect(tree.left_child.value).to eq(4)
+        expect(tree.left_child.left_child.value).to eq(1)
+        expect(tree.left_child.left_child.left_child).to be_nil
+        expect(tree.left_child.left_child.right_child.value).to eq(3)
+        expect(tree.left_child.left_child.right_child.leaf?).to be true
+        expect(tree.left_child.right_child.value).to eq(5)
+        expect(tree.left_child.right_child.left_child).to be_nil
+        expect(tree.left_child.right_child.right_child.value).to eq(7)
+        expect(tree.left_child.right_child.right_child.leaf?).to be true
+        # right side of tree
+        expect(tree.right_child.value).to eq(67)
+        expect(tree.right_child.left_child.value).to eq(9)
+        expect(tree.right_child.left_child.left_child).to be_nil
+        expect(tree.right_child.left_child.right_child.value).to eq(23)
+        expect(tree.right_child.left_child.right_child.leaf?).to be true
+        expect(tree.right_child.right_child.value).to eq(324)
+        expect(tree.right_child.right_child.left_child).to be_nil
+        expect(tree.right_child.right_child.right_child.value).to eq(6345)
+        expect(tree.right_child.right_child.right_child.leaf?).to be true        
       end
     end
   end
