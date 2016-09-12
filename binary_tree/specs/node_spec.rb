@@ -1,11 +1,5 @@
 require_relative 'spec_helper'
 
-def expect_all_children_to_be_to_one_side(tree, side:)
-  opposite_side = side == :right_child ? :left_child : :right_child
-  expect(tree.send(opposite_side)).to be_nil
-  expect_all_children_to_be_to_one_side(tree.send(side), side: side) if tree.send(side)
-end
-
 describe BinaryTree::Node do
 
   let(:node) { BinaryTree::Node.new }
@@ -92,7 +86,39 @@ describe BinaryTree::Node do
         expect(tree.right_child.right_child.value).to eq(324)
         expect(tree.right_child.right_child.left_child).to be_nil
         expect(tree.right_child.right_child.right_child.value).to eq(6345)
-        expect(tree.right_child.right_child.right_child.leaf?).to be true        
+        expect(tree.right_child.right_child.right_child.leaf?).to be true
+      end
+    end
+  end
+
+  describe '#build_tree_from_unsorted' do
+    context 'given a sorted ASC list' do
+      it 'creates a balanced tree' do
+        tree = BinaryTree::Node.new
+        root = tree.build_tree_from_unsorted([1, 2, 3])
+
+        expect(root.value).to eq(2)
+        expect(root.left_child.value).to eq(1)
+        expect(root.right_child.value).to eq(3)
+
+        expect(root.parent).to be_nil
+        expect(root.left_child.parent.value).to eq(2)
+        expect(root.right_child.parent.value).to eq(2)
+      end
+    end
+
+    context 'given a sorted DESC list' do
+      it 'creates a balanced tree' do
+        tree = BinaryTree::Node.new
+        root = tree.build_tree_from_unsorted([3, 2, 1])
+
+        expect(root.value).to eq(2)
+        expect(root.left_child.value).to eq(1)
+        expect(root.right_child.value).to eq(3)
+
+        expect(root.parent).to be_nil
+        expect(root.left_child.parent.value).to eq(2)
+        expect(root.right_child.parent.value).to eq(2)
       end
     end
   end
