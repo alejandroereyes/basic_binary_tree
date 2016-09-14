@@ -50,43 +50,13 @@ module BinaryTree
         right_height = find_height(node.right_child)
 
         if left_height < right_height
-          node.shift_nodes(counter_clockwise: true)
+          node = node.left_rotation
         else
-          node.shift_nodes(counter_clockwise: false)
+          node = node.right_rotation
         end
       end
 
       node
-    end
-
-    def shift_nodes(counter_clockwise:)
-      child_to_shift = counter_clockwise ? :right_child : :left_child
-      set_new_child  = counter_clockwise ? :left_child= : :right_child=
-
-      held_value = value
-      @value     = self.send(child_to_shift).value
-
-      self.send(set_new_child, new_node(held_value))
-
-      new_right_value                 = self.send(child_to_shift).send(child_to_shift).value
-      self.send(child_to_shift).value = new_right_value
-      self.send(child_to_shift).send("#{child_to_shift}=", nil)
-
-      left_child.parent  = self
-      right_child.parent = self
-    end
-
-    def get_next_value_from(arr)
-      next_value = arr.shift
-      while next_value == value do
-        next_value = arr.shift
-      end
-
-      if next_value.nil? && !arr.empty?
-        next_value, arr = set_next_value_from(arr)
-      end
-
-      [next_value, arr]
     end
 
     def depth_first_search(search_value)
@@ -128,6 +98,15 @@ module BinaryTree
     end
     alias_method :bf_search, :breadth_first_search
 
+    protected
+    def left_rotation
+      shift_nodes(counter_clockwise: true)
+    end
+
+    def right_rotation
+      shift_nodes(counter_clockwise: false)
+    end
+
     private
     def find_midpoint(arr)
       (arr.length - 1) / 2
@@ -149,6 +128,22 @@ module BinaryTree
 
       left_height >= right_height ? left_height + 1 : right_height + 1
     end
+
+    def shift_nodes(counter_clockwise:)
+      child_to_shift   = counter_clockwise ? :right_child : :left_child
+      new_child_source = counter_clockwise ? :left_child  : :right_child
+
+      original_parent = parent
+      original_child  = self.send(child_to_shift)
+      new_child       = original_child.send(new_child_source)
+
+      self.send("#{child_to_shift}=".to_sym, new_child)
+      @parent = original_child
+
+      original_child.send("#{new_child_source}=".to_sym, self)
+      original_child.parent = original_parent
+      original_child
+    end
   end
 end
 
@@ -161,10 +156,10 @@ end
 # tree = root.build_tree_from_unsorted([7, 324, 7, 9, 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5])
 # pp tree
 # pp arr
-# 
+#
 # 1.times do
-#   ut = BinaryTree::Node.new
-#   ut = ut.build_tree_from_unsorted([1, 2, 3])
-#   pp ut
-#   binding.pry
+  # ut = BinaryTree::Node.new
+  # ut = ut.build_tree_from_unsorted([1, 2, 3])
+  # pp ut
+  # binding.pry
 # end

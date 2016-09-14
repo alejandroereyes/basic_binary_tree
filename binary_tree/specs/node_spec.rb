@@ -60,6 +60,72 @@ describe BinaryTree::Node do
         expect(tree.right_child.right_child.right_child.leaf?).to be true
       end
     end
+  end
+
+  describe '#build_tree_from_unsorted' do
+    context 'given a sorted ASC list' do
+      it 'creates a balanced tree when one left rotation is needed' do
+        tree = BinaryTree::Node.new
+        root = tree.build_tree_from_unsorted([1, 2, 3])
+
+        expect(root.value).to eq(2)
+        expect(root.left_child.value).to eq(1)
+        expect(root.right_child.value).to eq(3)
+
+        expect(root.parent).to be_nil
+        expect(root.left_child.parent.value).to eq(2)
+        expect(root.right_child.parent.value).to eq(2)
+      end
+
+      it 'creates a balanced tree when more than one left rotation is needed' do
+        tree = BinaryTree::Node.new
+        root = tree.build_tree_from_unsorted([1, 2, 3, 4, 5, 6, 7])
+
+        expect(root.value).to eq(4)
+        expect(root.right_child.value).to eq(6)
+        expect(root.right_child.left_child.value).to eq(5)
+        expect(root.right_child.left_child.leaf?).to be true
+        expect(root.right_child.right_child.value).to eq(7)
+        expect(root.right_child.right_child.leaf?).to be true
+        expect(root.left_child.value).to eq(2)
+        expect(root.left_child.left_child.value).to eq(1)
+        expect(root.left_child.left_child.leaf?).to be true
+        expect(root.left_child.right_child.value).to eq(3)
+        expect(root.left_child.right_child.leaf?).to be true
+      end
+    end
+
+    context 'given a sorted DESC list' do
+      it 'creates a balanced tree when one right rotation is needed' do
+        tree = BinaryTree::Node.new
+        root = tree.build_tree_from_unsorted([3, 2, 1])
+
+        expect(root.value).to eq(2)
+        expect(root.left_child.value).to eq(1)
+        expect(root.right_child.value).to eq(3)
+
+        expect(root.parent).to be_nil
+        expect(root.left_child.parent.value).to eq(2)
+        expect(root.right_child.parent.value).to eq(2)
+      end
+
+      it 'creates a balanced tree when more than one right rotation is needed' do
+        tree = BinaryTree::Node.new
+        root = tree.build_tree_from_unsorted([7, 6, 5, 4, 3, 2, 1])
+
+        expect(root.value).to eq(4)
+        expect(root.right_child.value).to eq(6)
+        expect(root.right_child.left_child.value).to eq(5)
+        expect(root.right_child.left_child.leaf?).to be true
+        expect(root.right_child.right_child.value).to eq(7)
+        expect(root.right_child.right_child.leaf?).to be true
+        expect(root.left_child.value).to eq(2)
+        expect(root.left_child.left_child.value).to eq(1)
+        expect(root.left_child.left_child.leaf?).to be true
+        expect(root.left_child.right_child.value).to eq(3)
+        expect(root.left_child.right_child.leaf?).to be true
+      end
+    end
 
     context 'given an unsorted list' do
       let(:unsorted_arr) { [7, 324, 7, 9, 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5] }
@@ -87,38 +153,6 @@ describe BinaryTree::Node do
         expect(tree.right_child.right_child.left_child).to be_nil
         expect(tree.right_child.right_child.right_child.value).to eq(6345)
         expect(tree.right_child.right_child.right_child.leaf?).to be true
-      end
-    end
-  end
-
-  describe '#build_tree_from_unsorted' do
-    context 'given a sorted ASC list' do
-      it 'creates a balanced tree' do
-        tree = BinaryTree::Node.new
-        root = tree.build_tree_from_unsorted([1, 2, 3])
-
-        expect(root.value).to eq(2)
-        expect(root.left_child.value).to eq(1)
-        expect(root.right_child.value).to eq(3)
-
-        expect(root.parent).to be_nil
-        expect(root.left_child.parent.value).to eq(2)
-        expect(root.right_child.parent.value).to eq(2)
-      end
-    end
-
-    context 'given a sorted DESC list' do
-      it 'creates a balanced tree' do
-        tree = BinaryTree::Node.new
-        root = tree.build_tree_from_unsorted([3, 2, 1])
-
-        expect(root.value).to eq(2)
-        expect(root.left_child.value).to eq(1)
-        expect(root.right_child.value).to eq(3)
-
-        expect(root.parent).to be_nil
-        expect(root.left_child.parent.value).to eq(2)
-        expect(root.right_child.parent.value).to eq(2)
       end
     end
   end
