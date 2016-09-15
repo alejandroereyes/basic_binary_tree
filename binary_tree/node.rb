@@ -53,12 +53,23 @@ module BinaryTree
     end
 
     def rebalance(current_root)
-      left_height  = find_height(current_root.left_child)
-      right_height = find_height(current_root.right_child)
+      left_height  = current_root.left_height
+      right_height = current_root.right_height
 
       if left_height < right_height
+        child = current_root.right_child
+        if child.left_heavy?
+          current_root.right_child = child.right_rotation
+        end
+
         current_root = current_root.left_rotation
       else
+        child = current_root.left_child
+        if child.right_heavy?
+          current_root.left_child = child.left_rotation
+        end
+
+
         current_root = current_root.right_rotation
       end
       current_root
@@ -110,6 +121,22 @@ module BinaryTree
 
     def right_rotation
       shift_nodes(counter_clockwise: false)
+    end
+
+    def left_height
+      find_height(left_child)
+    end
+
+    def right_height
+      find_height(right_child)
+    end
+
+    def left_heavy?
+      left_height > right_height
+    end
+
+    def right_heavy?
+      !left_heavy?
     end
 
     private

@@ -137,7 +137,7 @@ describe BinaryTree::Node do
 
     context 'given an unsorted list' do
       context 'with values needing only a right and then left rotation' do
-        skip 'creates a balanced tree' do
+        it 'creates a balanced tree' do
           tree = BinaryTree::Node.new
           root = tree.build_tree_from_unsorted([1, 3, 2])
 
@@ -152,7 +152,7 @@ describe BinaryTree::Node do
       end
 
       context 'with values needing only a left and then right rotation' do
-        skip 'creates a balanced tree' do
+        it 'creates a balanced tree' do
           tree = BinaryTree::Node.new
           root = tree.build_tree_from_unsorted([2, 3, 1])
 
