@@ -46,17 +46,22 @@ module BinaryTree
       node.parent = parent_node
 
       if height_diff(node) > 1
-        left_height  = find_height(node.left_child)
-        right_height = find_height(node.right_child)
-
-        if left_height < right_height
-          node = node.left_rotation
-        else
-          node = node.right_rotation
-        end
+        node = rebalance(node)
       end
 
       node
+    end
+
+    def rebalance(current_root)
+      left_height  = find_height(current_root.left_child)
+      right_height = find_height(current_root.right_child)
+
+      if left_height < right_height
+        current_root = current_root.left_rotation
+      else
+        current_root = current_root.right_rotation
+      end
+      current_root
     end
 
     def depth_first_search(search_value)

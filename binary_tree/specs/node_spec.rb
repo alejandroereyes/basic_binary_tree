@@ -64,95 +64,135 @@ describe BinaryTree::Node do
 
   describe '#build_tree_from_unsorted' do
     context 'given a sorted ASC list' do
-      it 'creates a balanced tree when one left rotation is needed' do
-        tree = BinaryTree::Node.new
-        root = tree.build_tree_from_unsorted([1, 2, 3])
+      context 'with values needing a single left rotation' do
+        it 'creates a balanced tree' do
+          tree = BinaryTree::Node.new
+          root = tree.build_tree_from_unsorted([1, 2, 3])
 
-        expect(root.value).to eq(2)
-        expect(root.left_child.value).to eq(1)
-        expect(root.right_child.value).to eq(3)
+          expect(root.value).to eq(2)
+          expect(root.left_child.value).to eq(1)
+          expect(root.right_child.value).to eq(3)
 
-        expect(root.parent).to be_nil
-        expect(root.left_child.parent.value).to eq(2)
-        expect(root.right_child.parent.value).to eq(2)
+          expect(root.parent).to be_nil
+          expect(root.left_child.parent.value).to eq(2)
+          expect(root.right_child.parent.value).to eq(2)
+        end
       end
 
-      it 'creates a balanced tree when more than one left rotation is needed' do
-        tree = BinaryTree::Node.new
-        root = tree.build_tree_from_unsorted([1, 2, 3, 4, 5, 6, 7])
+      context 'with values needing more than a single left rotation' do
+        it 'creates a balanced tree' do
+          tree = BinaryTree::Node.new
+          root = tree.build_tree_from_unsorted([1, 2, 3, 4, 5, 6, 7])
 
-        expect(root.value).to eq(4)
-        expect(root.right_child.value).to eq(6)
-        expect(root.right_child.left_child.value).to eq(5)
-        expect(root.right_child.left_child.leaf?).to be true
-        expect(root.right_child.right_child.value).to eq(7)
-        expect(root.right_child.right_child.leaf?).to be true
-        expect(root.left_child.value).to eq(2)
-        expect(root.left_child.left_child.value).to eq(1)
-        expect(root.left_child.left_child.leaf?).to be true
-        expect(root.left_child.right_child.value).to eq(3)
-        expect(root.left_child.right_child.leaf?).to be true
+          expect(root.value).to eq(4)
+          expect(root.right_child.value).to eq(6)
+          expect(root.right_child.left_child.value).to eq(5)
+          expect(root.right_child.left_child.leaf?).to be true
+          expect(root.right_child.right_child.value).to eq(7)
+          expect(root.right_child.right_child.leaf?).to be true
+          expect(root.left_child.value).to eq(2)
+          expect(root.left_child.left_child.value).to eq(1)
+          expect(root.left_child.left_child.leaf?).to be true
+          expect(root.left_child.right_child.value).to eq(3)
+          expect(root.left_child.right_child.leaf?).to be true
+        end
       end
     end
 
     context 'given a sorted DESC list' do
-      it 'creates a balanced tree when one right rotation is needed' do
-        tree = BinaryTree::Node.new
-        root = tree.build_tree_from_unsorted([3, 2, 1])
+      context 'with values needing a single right rotation' do
+        it 'creates a balanced tree' do
+          tree = BinaryTree::Node.new
+          root = tree.build_tree_from_unsorted([3, 2, 1])
 
-        expect(root.value).to eq(2)
-        expect(root.left_child.value).to eq(1)
-        expect(root.right_child.value).to eq(3)
+          expect(root.value).to eq(2)
+          expect(root.left_child.value).to eq(1)
+          expect(root.right_child.value).to eq(3)
 
-        expect(root.parent).to be_nil
-        expect(root.left_child.parent.value).to eq(2)
-        expect(root.right_child.parent.value).to eq(2)
+          expect(root.parent).to be_nil
+          expect(root.left_child.parent.value).to eq(2)
+          expect(root.right_child.parent.value).to eq(2)
+        end
       end
 
-      it 'creates a balanced tree when more than one right rotation is needed' do
-        tree = BinaryTree::Node.new
-        root = tree.build_tree_from_unsorted([7, 6, 5, 4, 3, 2, 1])
+      context 'with values needing more than a single right rotation' do
+        it 'creates a balanced tree' do
+          tree = BinaryTree::Node.new
+          root = tree.build_tree_from_unsorted([7, 6, 5, 4, 3, 2, 1])
 
-        expect(root.value).to eq(4)
-        expect(root.right_child.value).to eq(6)
-        expect(root.right_child.left_child.value).to eq(5)
-        expect(root.right_child.left_child.leaf?).to be true
-        expect(root.right_child.right_child.value).to eq(7)
-        expect(root.right_child.right_child.leaf?).to be true
-        expect(root.left_child.value).to eq(2)
-        expect(root.left_child.left_child.value).to eq(1)
-        expect(root.left_child.left_child.leaf?).to be true
-        expect(root.left_child.right_child.value).to eq(3)
-        expect(root.left_child.right_child.leaf?).to be true
+          expect(root.value).to eq(4)
+          expect(root.right_child.value).to eq(6)
+          expect(root.right_child.left_child.value).to eq(5)
+          expect(root.right_child.left_child.leaf?).to be true
+          expect(root.right_child.right_child.value).to eq(7)
+          expect(root.right_child.right_child.leaf?).to be true
+          expect(root.left_child.value).to eq(2)
+          expect(root.left_child.left_child.value).to eq(1)
+          expect(root.left_child.left_child.leaf?).to be true
+          expect(root.left_child.right_child.value).to eq(3)
+          expect(root.left_child.right_child.leaf?).to be true
+        end
       end
     end
 
     context 'given an unsorted list' do
-      let(:unsorted_arr) { [7, 324, 7, 9, 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5] }
-      skip 'will build a binary tree' do
-        tree = BinaryTree::Node.new.build_tree_from_unsorted(unsorted_arr)
+      context 'with values needing only a right and then left rotation' do
+        skip 'creates a balanced tree' do
+          tree = BinaryTree::Node.new
+          root = tree.build_tree_from_unsorted([1, 3, 2])
 
-        # left side of tree
-        expect(tree.value).to eq(8)
-        expect(tree.left_child.value).to eq(4)
-        expect(tree.left_child.left_child.value).to eq(1)
-        expect(tree.left_child.left_child.left_child).to be_nil
-        expect(tree.left_child.left_child.right_child.value).to eq(3)
-        expect(tree.left_child.left_child.right_child.leaf?).to be true
-        expect(tree.left_child.right_child.value).to eq(5)
-        expect(tree.left_child.right_child.left_child).to be_nil
-        expect(tree.left_child.right_child.right_child.value).to eq(7)
-        expect(tree.left_child.right_child.right_child.leaf?).to be true
-        # right side of tree
-        expect(tree.right_child.value).to eq(67)
-        expect(tree.right_child.left_child.value).to eq(9)
-        expect(tree.right_child.left_child.left_child).to be_nil
-        expect(tree.right_child.left_child.right_child.value).to eq(23)
-        expect(tree.right_child.left_child.right_child.leaf?).to be true
-        expect(tree.right_child.right_child.value).to eq(324)
-        expect(tree.right_child.right_child.left_child).to be_nil
-        expect(tree.right_child.right_child.right_child.value).to eq(6345)
-        expect(tree.right_child.right_child.right_child.leaf?).to be true
+          expect(root.value).to eq(2)
+          expect(root.left_child.value).to eq(1)
+          expect(root.right_child.value).to eq(3)
+
+          expect(root.parent).to be_nil
+          expect(root.left_child.parent.value).to eq(2)
+          expect(root.right_child.parent.value).to eq(2)
+        end
+      end
+
+      context 'with values needing only a left and then right rotation' do
+        skip 'creates a balanced tree' do
+          tree = BinaryTree::Node.new
+          root = tree.build_tree_from_unsorted([2, 3, 1])
+
+          expect(root.value).to eq(2)
+          expect(root.left_child.value).to eq(1)
+          expect(root.right_child.value).to eq(3)
+
+          expect(root.parent).to be_nil
+          expect(root.left_child.parent.value).to eq(2)
+          expect(root.right_child.parent.value).to eq(2)
+        end
+      end
+
+      context 'with values needing rotations in varying directions' do
+        let(:unsorted_arr) { [7, 324, 7, 9, 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5] }
+        skip 'will build a binary tree' do
+          tree = BinaryTree::Node.new.build_tree_from_unsorted(unsorted_arr)
+
+          # left side of tree
+          expect(tree.value).to eq(8)
+          expect(tree.left_child.value).to eq(4)
+          expect(tree.left_child.left_child.value).to eq(1)
+          expect(tree.left_child.left_child.left_child).to be_nil
+          expect(tree.left_child.left_child.right_child.value).to eq(3)
+          expect(tree.left_child.left_child.right_child.leaf?).to be true
+          expect(tree.left_child.right_child.value).to eq(5)
+          expect(tree.left_child.right_child.left_child).to be_nil
+          expect(tree.left_child.right_child.right_child.value).to eq(7)
+          expect(tree.left_child.right_child.right_child.leaf?).to be true
+          # right side of tree
+          expect(tree.right_child.value).to eq(67)
+          expect(tree.right_child.left_child.value).to eq(9)
+          expect(tree.right_child.left_child.left_child).to be_nil
+          expect(tree.right_child.left_child.right_child.value).to eq(23)
+          expect(tree.right_child.left_child.right_child.leaf?).to be true
+          expect(tree.right_child.right_child.value).to eq(324)
+          expect(tree.right_child.right_child.left_child).to be_nil
+          expect(tree.right_child.right_child.right_child.value).to eq(6345)
+          expect(tree.right_child.right_child.right_child.leaf?).to be true
+        end
       end
     end
   end
