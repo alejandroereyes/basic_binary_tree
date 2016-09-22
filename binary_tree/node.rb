@@ -63,12 +63,11 @@ module BinaryTree
         end
 
         current_root = current_root.left_rotation
-      else
+      else right_height < left_height
         child = current_root.left_child
         if child.right_heavy?
           current_root.left_child = child.left_rotation
         end
-
 
         current_root = current_root.right_rotation
       end
