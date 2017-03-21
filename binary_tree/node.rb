@@ -75,7 +75,6 @@ module BinaryTree
     end
 
     def depth_first_search(search_value)
-      # puts "\nCURRENT NODE VALUE: #{value}"
       return self if value == search_value
 
       if left_child && search_value < value
@@ -95,7 +94,6 @@ module BinaryTree
     alias_method :df_search, :depth_first_search
 
     def breadth_first_search(search_value, queue=[])
-      # puts "\nCURRENT NODE VALUE: #{value}\n"
       return self if value == search_value
 
       if left_child && search_value < value
@@ -177,20 +175,3 @@ module BinaryTree
     end
   end
 end
-
-# arr = [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345]
-# root = BinaryTree::Node.new
-# tree = root.build_tree(arr.dup)
-# last = tree.bf_search(6345)
-# diff = last.send(:height_diff, last.parent)
-# puts "height diff for node with value #{last.parent.value} is 1? #{diff == 1}"
-# tree = root.build_tree_from_unsorted([7, 324, 7, 9, 23, 8, 6345, 4, 4, 3, 1, 9, 67, 5])
-# pp tree
-# pp arr
-#
-# 1.times do
-  # ut = BinaryTree::Node.new
-  # ut = ut.build_tree_from_unsorted([1, 2, 3])
-  # pp ut
-  # binding.pry
-# end
