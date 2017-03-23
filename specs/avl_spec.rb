@@ -163,18 +163,37 @@ describe BinaryTree::Build::AVL do
   describe '#depth_first_search' do
     let(:unsorted_no_dups_arr) { [7, 324, 9, 23, 8, 6345, 4, 3, 1, 67, 5] }
     let(:tree) { BinaryTree::Build::AVL.new(unsorted_no_dups_arr) }
-    let(:root) { tree.root }
     let(:fake_search) { instance_double(BinaryTree::Search::DepthFirst) }
     let(:search_value) { unsorted_no_dups_arr.sample }
     let(:expected_node) { BinaryTree::Node.new(search_value) }
 
     context 'search value exists within tree' do
       before do
+        expect(fake_search).to receive(:search_value=).with(search_value)
         expect(fake_search).to receive(:search).and_return(expected_node)
-        expect(BinaryTree::Search::DepthFirst).to receive(:new).with(root, search_value).and_return(fake_search)
+        expect(BinaryTree::Search::DepthFirst).to receive(:new).and_return(fake_search)
       end
-      it 'returns the node holding the search value if exists within tree' do
-        expect(tree.depth_first_search(search_value)).to eq(expected_node)
+      it 'delegates to a BinaryTree::Search::DepthFirst object' do
+        expect(tree.depth_first_search(search_value).value).to eq(expected_node.value)
+      end
+    end
+  end
+
+  describe '#breadth_first_search' do
+    let(:unsorted_no_dups_arr) { [7, 324, 9, 23, 8, 6345, 4, 3, 1, 67, 5] }
+    let(:tree) { BinaryTree::Build::AVL.new(unsorted_no_dups_arr) }
+    let(:fake_search) { instance_double(BinaryTree::Search::BreadthFirst) }
+    let(:search_value) { unsorted_no_dups_arr.sample }
+    let(:expected_node) { BinaryTree::Node.new(search_value) }
+
+    context 'search value exists within tree' do
+      before do
+        expect(fake_search).to receive(:search_value=).with(search_value)
+        expect(fake_search).to receive(:search).and_return(expected_node)
+        expect(BinaryTree::Search::BreadthFirst).to receive(:new).and_return(fake_search)
+      end
+      it 'delegates to a BinaryTree::Search::DepthFirst object' do
+        expect(tree.breadth_first_search(search_value).value).to eq(expected_node.value)
       end
     end
   end

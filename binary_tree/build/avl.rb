@@ -9,11 +9,18 @@ module BinaryTree
       def initialize(init_arr)
         @init_arr = init_arr
         @root = build_tree_from_unsorted
+        @depth = Search::DepthFirst.new(root)
+        @breadth = Search::BreadthFirst.new(root)
       end
 
       def depth_first_search(search_value)
-        depth_first = Search::DepthFirst.new(root, search_value)
-        depth_first.search
+        depth.search_value = search_value
+        depth.search
+      end
+
+      def breadth_first_search(search_value)
+        breadth.search_value = search_value
+        breadth.search
       end
 
       def to_a
@@ -21,6 +28,7 @@ module BinaryTree
       end
 
       private
+      attr_reader :depth, :breadth
       def build_tree_from_unsorted
         root = BinaryTree::Node.new
 
