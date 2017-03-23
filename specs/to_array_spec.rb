@@ -31,7 +31,6 @@ describe BinaryTree::ToArray do
   end
 
   describe "#left_nodes" do
-    # let(:tree_traverser) { TreeTraversal.new(root) }
     context "before to_ary called" do
       it "it returns an empty array" do
         expect(tree_traverser.left_nodes).to be_empty
