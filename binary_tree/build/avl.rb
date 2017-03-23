@@ -8,7 +8,7 @@ module BinaryTree
 
       def initialize(init_arr)
         @init_arr = init_arr
-        @root = build_tree_from_unsorted
+        @root = build_tree
         @depth = Search::DepthFirst.new(root)
         @breadth = Search::BreadthFirst.new(root)
       end
@@ -29,7 +29,7 @@ module BinaryTree
 
       private
       attr_reader :depth, :breadth
-      def build_tree_from_unsorted
+      def build_tree
         root = BinaryTree::Node.new
 
         init_arr.each do |integer|
